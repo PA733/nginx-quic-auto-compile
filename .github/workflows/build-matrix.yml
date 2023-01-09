@@ -23,6 +23,7 @@ jobs:
             choco install -y perl
           fi
       - name: Build nginx-quic with BoringSSL
+        shell: bash
         run: |
           git clone https://boringssl.googlesource.com/boringssl
           cd boringssl
