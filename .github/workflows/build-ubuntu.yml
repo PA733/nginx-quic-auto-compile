@@ -17,5 +17,6 @@ jobs:
         echo "deb [arch=amd64] https://nginx.org/packages/mainline/ubuntu $(lsb_release -c -s) nginx" | sudo tee -a /etc/apt/sources.list.d/nginx.list >> /dev/null
         echo "deb-src https://nginx.org/packages/mainline/ubuntu $(lsb_release -c -s) nginx" | sudo tee -a /etc/apt/sources.list.d/nginx.list >> /dev/null
         sudo apt-get -qq update
-        sudo apt-get build-dep nginx
-        sudo apt-get source nginx
+        sudo apt-get -qq build-dep nginx
+        sudo apt-get -qq source nginx
+        mv $(ls -F | grep nginx | grep /$) nginx-src
