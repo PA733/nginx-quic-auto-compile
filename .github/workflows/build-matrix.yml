@@ -58,6 +58,4 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: nginx-quic-${{ matrix.os }}
-          path: nginx-qu
-
           path: nginx-quic
