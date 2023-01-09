@@ -26,4 +26,6 @@ jobs:
     - name: Get NGINX-QUIC source code
       run: |
         hg clone -b quic https://hg.nginx.org/nginx-quic
-        sudo rsync -r nginx-quic/ nginx-src/
+        sudo chmod -R 755 nginx-src/
+        sudo chmod 777 nginx-src/configure
+        rsync -r nginx-quic/ nginx-src/
