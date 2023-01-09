@@ -13,8 +13,6 @@ jobs:
     - name: Prepare on ubuntu
       run: |
         sudo apt-get update
-        sudo apt-get install dpkg-dev
-        sudo apt-get install uuid-dev
         curl -s https://nginx.org/keys/nginx_signing.key | sudo gpg --no-default-keyring --keyring gnupg-ring:/etc/apt/trusted.gpg.d/NAME.gpg --import
-        sudo echo "deb https://nginx.org/packages/mainline/ubuntu ${ lsb_release -c -s } nginx" >> /etc/apt/sources.list
+        sudo echo "deb https://nginx.org/packages/mainline/ubuntu $(lsb_release -c -s) nginx" >> /etc/apt/sources.list
         cat /etc/apt/sources.list
