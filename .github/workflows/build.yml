@@ -10,10 +10,10 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y build-essential libssl-dev zlib1g-dev
+          sudo apt-get install -y build-essential
       - name: Build nginx-quic with BoringSSL
         run: |
-          git clone https://github.com/cloudflare/boringssl.git
+          git clone https://boringssl.googlesource.com/boringssl
           cd boringssl
           mkdir build
           cd build
@@ -21,11 +21,13 @@ jobs:
           make
           sudo make install
           cd ../..
-          git clone https://github.com/nginx/nginx-quic.git
+          hg clone -b quic https://hg.nginx.org/nginx-quic
           cd nginx-quic
-          ./auto/configure --with-openssl=boringssl
+          ./auto/configure --with-debug --with-http_v3_module         \
+                           --with-cc-opt="-I../boringssl/include"     \
+                           --with-ld-opt="-L../boringssl/build/ssl    \
+                                          -L../boringssl/build/crypto"
           make
-          sudo make install
       - name: Upload build artifact
         uses: actions/upload-artifact@v2
         with:
