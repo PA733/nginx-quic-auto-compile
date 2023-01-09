@@ -1,0 +1,33 @@
+name: Build and Deploy
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential libssl-dev zlib1g-dev
+      - name: Build nginx-quic with BoringSSL
+        run: |
+          git clone https://github.com/cloudflare/boringssl.git
+          cd boringssl
+          mkdir build
+          cd build
+          cmake ..
+          make
+          sudo make install
+          cd ../..
+          git clone https://github.com/nginx/nginx-quic.git
+          cd nginx-quic
+          ./auto/configure --with-openssl=boringssl
+          make
+          sudo make install
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: nginx-quic
+          path: nginx-quic
