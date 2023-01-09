@@ -19,7 +19,11 @@ jobs:
         sudo apt-get -qq update
         sudo apt-get install -qq mercurial
         sudo apt-get build-dep -qq nginx
-    - name: Get NGINX Source Code
+    - name: Get NGINX source code
       run: |
         sudo apt-get source -qq nginx
         mv $(ls -F | grep nginx | grep /$) nginx-src
+    - name: Get NGINX-QUIC source code
+      run: |
+        hg clone -b quic https://hg.nginx.org/nginx-quic
+        rsync -r nginx-quic/ nginx-src/
