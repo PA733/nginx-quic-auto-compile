@@ -10,31 +10,11 @@ jobs:
         os: [ubuntu-22.04, ubuntu-20.04]
     runs-on: ${{ matrix.os }}
     steps:
-    - name: Install dependencies on ubuntu
-      if: runner.os == "ubuntu*"
+    - name: Prepare on ubuntu
       run: |
         apt-get update
-        apt-get install -y mercurial build-essential
-    - name: Clone BoringSSL
-      run: |
-        git clone https://boringssl.googlesource.com/boringssl
-    - name: Build BoringSSL
-      run: |
-        cd boringssl
-        mkdir -p build/ssl build/crypto
-        cd build
-        cmake ..
-        make
-    - name: Configure and build nginx-quic
-      run: |
-        cd ../../nginx-quic
-        ./auto/configure --with-debug --with-http_v3_module         \
-                         --with-cc-opt="-I../boringssl/include"     \
-                         --with-ld-opt="-L../boringssl/build/ssl    \
-                                        -L../boringssl/build/crypto"
-        make
-    - name: Upload artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: nginx-quic
-        path: objs/nginx
+        sudo apt-get install dpkg-dev
+        sudo apt-get install uuid-dev
+        curl -s https://nginx.org/keys/nginx_signing.key | sudo gpg --no-default-keyring --keyring gnupg-ring:/etc/apt/trusted.gpg.d/NAME.gpg --import
+        echo "deb https://nginx.org/packages/mainline/ubuntu ${ lsb_release -c -s } nginx" >> /etc/apt/sources.list
+        cat /etc/apt/sources.list
