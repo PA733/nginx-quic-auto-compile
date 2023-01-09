@@ -24,12 +24,10 @@ jobs:
       run: |
         sudo apt-get source -qq nginx
         mv $(ls -F | grep nginx | grep /$) nginx-src
-        sudo chmod -R 755 nginx-src/
-        sudo chmod 777 nginx-src/configure
     - name: Get NGINX-QUIC source code
       run: |
         hg clone -b quic https://hg.nginx.org/nginx-quic
-        rsync -r nginx-quic/ nginx-src/
+        sudo rsync -r nginx-quic/ nginx-src/
     - name: Get BoringSSL source code
       run: |
         git clone https://github.com/google/boringssl
