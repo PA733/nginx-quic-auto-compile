@@ -14,6 +14,8 @@ jobs:
       run: |
         curl -s https://nginx.org/keys/nginx_signing.key | sudo gpg --quiet --no-default-keyring --keyring gnupg-ring:/etc/apt/trusted.gpg.d/nginx.gpg --import
         sudo chown _apt /etc/apt/trusted.gpg.d/nginx.gpg
-        echo "deb https://nginx.org/packages/mainline/ubuntu $(lsb_release -c -s) nginx" | sudo tee -a /etc/apt/sources.list.d/nginx.list >> /dev/null
+        echo "deb [arch=amd64] https://nginx.org/packages/mainline/ubuntu $(lsb_release -c -s) nginx" | sudo tee -a /etc/apt/sources.list.d/nginx.list >> /dev/null
         echo "deb-src https://nginx.org/packages/mainline/ubuntu $(lsb_release -c -s) nginx" | sudo tee -a /etc/apt/sources.list.d/nginx.list >> /dev/null
         sudo apt-get -qq update
+        sudo apt-get build-dep nginx
+        sudo apt-get source nginx
