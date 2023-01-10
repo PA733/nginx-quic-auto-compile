@@ -55,4 +55,4 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: nginx-quic-${{ matrix.os }}
-        path: /**/*.deb
+        path: ${{ github.workspace }}/**/*.deb
