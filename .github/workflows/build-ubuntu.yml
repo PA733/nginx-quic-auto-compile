@@ -10,7 +10,7 @@ jobs:
         os: [ubuntu-22.04, ubuntu-20.04]
     runs-on: ${{ matrix.os }}
     steps:
-    - name: Prepare on ubuntu
+    - name: Prepare
       run: |
         curl -s https://nginx.org/keys/nginx_signing.key | sudo gpg --quiet --no-default-keyring --keyring gnupg-ring:/etc/apt/trusted.gpg.d/nginx.gpg --import
         sudo chown _apt /etc/apt/trusted.gpg.d/nginx.gpg
@@ -32,6 +32,8 @@ jobs:
     - name: Get BoringSSL source code
       run: |
         git clone https://github.com/google/boringssl --depth=1
+    - name: Build BoringSSL
+      run: |
         cd boringssl/
         mkdir build
         cd build
