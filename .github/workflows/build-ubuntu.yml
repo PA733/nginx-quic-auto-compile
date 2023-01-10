@@ -45,6 +45,7 @@ jobs:
       run: |
         sudo sed -i 's/CFLAGS=""/CFLAGS="-Wno-ignored-qualifiers"/g' nginx-src/debian/rules
         sudo sed -i '\|CFLAGS="-Wno-ignored-qualifiers"| s|$| --with-http_v3_module --with-stream_quic_module --with-cc-opt="-I${{ github.workspace }}/boringssl/include $(CFLAGS)" --with-ld-opt="-L${{ github.workspace }}/boringssl/build/ssl -L${{ github.workspace }}/boringssl/build/crypto $(LDFLAGS)"|' nginx-src/debian/rules
+        sed -i '1s/^/nginx (1.19.6-1~bionic+pagespeed+brotli+http3+quic) bionic; urgency=low\n\n  * 9.99.6-1\n\n -- PA733 <admin@ypemc.com>  Tue, 24 Nov 2099 16:02:03 +0300\n/' nginx-src/debian/changelog
 
     - name: Build NGINX-QUIC
       run: |
