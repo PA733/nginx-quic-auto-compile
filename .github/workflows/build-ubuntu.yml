@@ -39,6 +39,7 @@ jobs:
         cd build
         cmake ../
         make -j$(expr $(nproc) \+ 1)
+        cd .. && pwd && ls
     - name: Configure NGINX-QUIC
       # Replace 'CFLAGS=""' with 'CFLAGS="-Wno-ignored-qualifiers"' in nginx-src/debian/rules
       # Append '--with-http_v3_module --with-http_quic_module --with-stream_quic_module --with-cc-opt="-I../modules/boringssl/include $(CFLAGS)" --with-ld-opt="-L../modules/boringssl/build/ssl -L../modules/boringssl/build/crypto $(LDFLAGS)"' to the end of all lines containing 'CFLAGS="-Wno-ignored-qualifiers"' in nginx-src/debian/rules
