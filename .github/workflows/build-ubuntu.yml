@@ -18,7 +18,8 @@ jobs:
         echo "deb-src https://nginx.org/packages/mainline/ubuntu $(lsb_release -c -s) nginx" | sudo tee -a /etc/apt/sources.list.d/nginx.list >> /dev/null
         sudo apt-get -qq update
         sudo apt-get install -qq mercurial
-        sudo apt-get install -qq golang libunwind-dev
+        add-apt-repository -y ppa:longsleep/golang-backports
+        sudo apt-get install -qq golang-go libunwind-dev
         sudo apt-get build-dep -qq nginx
     - name: Get NGINX source code
       run: |
