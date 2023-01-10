@@ -50,7 +50,7 @@ jobs:
     - name: Build NGINX-QUIC
       run: |
         cd nginx-src/
-        sudo dpkg-buildpackage -b
+        sudo dpkg-buildpackage -us -uc
     - name: Upload build artifact
       uses: actions/upload-artifact@v2
       with:
