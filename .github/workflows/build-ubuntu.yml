@@ -29,6 +29,7 @@ jobs:
       run: |
         hg clone -b quic https://hg.nginx.org/nginx-quic
         sudo rsync -r nginx-quic/ nginx-src/
+        sudo chmod -Rf 777 nginx-src/
     - name: Get BoringSSL source code
       run: |
         git clone https://github.com/google/boringssl --depth=1
@@ -39,13 +40,30 @@ jobs:
         cd build
         cmake ../
         make -j$(expr $(nproc) \+ 1)
+    # - name: Get NGINX-PageSpeed source code
+    #   run: |
+    #     mkdir nginx-src/debian/modules
+    #     cd nginx-src/debian/modules
+    #     wget https://github.com/apache/incubator-pagespeed-ngx/archive/v1.13.35.2-stable.zip
+    #     unzip v1.13.35.2-stable.zip
+    #     sudo mv incubator-pagespeed-ngx-1.13.35.2-stable ngx_pagespeed
+    #     cd ngx_pagespeed
+    #     sudo wget https://dl.google.com/dl/page-speed/psol/1.13.35.2-x64.tar.gz
+    #     sudo tar -xzvf 1.13.35.2-x64.tar.gz
+    - name: Get brotli source-code
+      run: |
+        mkdir -p nginx-src/debian/modules
+        cd nginx-src/debian/modules
+        git clone --depth=1 --recursive https://github.com/google/ngx_brotli
     - name: Configure NGINX-QUIC
       # Replace 'CFLAGS=""' with 'CFLAGS="-Wno-ignored-qualifiers"' in nginx-src/debian/rules
-      # Append '--with-http_v3_module --with-http_quic_module --with-stream_quic_module --with-cc-opt="-I${{ github.workspace }}/boringssl/include $(CFLAGS)" --with-ld-opt="-L${{ github.workspace }}/boringssl/build/ssl -L${{ github.workspace }}/boringssl/build/crypto $(LDFLAGS)"' to the end of all lines containing 'CFLAGS="-Wno-ignored-qualifiers"' in nginx-src/debian/rules
+      # Append QUIC module to nginx-src/debian/rules
+      # Append NGINX-Brotli module tonginx-src/debian/rules
+      # Append version info to nginx-src/debian/changelog
       run: |
-        sudo sed -i 's/CFLAGS=""/CFLAGS="-Wno-ignored-qualifiers"/g' nginx-src/debian/rules
-        sudo sed -i '\|CFLAGS="-Wno-ignored-qualifiers"| s|$| --with-http_v3_module --with-stream_quic_module --with-cc-opt="-I${{ github.workspace }}/boringssl/include $(CFLAGS)" --with-ld-opt="-L${{ github.workspace }}/boringssl/build/ssl -L${{ github.workspace }}/boringssl/build/crypto $(LDFLAGS)"|' nginx-src/debian/rules
-        sudo sed -i '1s/^/nginx (1.19.6-1~bionic+pagespeed+brotli+http3+quic) bionic; urgency=low\n\n  * 9.99.6-1\n\n -- PA733 <admin@ypemc.com>  Tue, 24 Nov 2099 16:02:03 +0300\n/' nginx-src/debian/changelog
+        sed -i 's/CFLAGS=""/CFLAGS="-Wno-ignored-qualifiers"/g' nginx-src/debian/rules
+        sed -i '\|CFLAGS="-Wno-ignored-qualifiers"| s|$| --with-http_v3_module --with-stream_quic_module --with-cc-opt="-I${{ github.workspace }}/boringssl/include $(CFLAGS)" --with-ld-opt="-L${{ github.workspace }}/boringssl/build/ssl -L${{ github.workspace }}/boringssl/build/crypto $(LDFLAGS)"|' nginx-src/debian/rules
+        sed -i '1s/^/nginx (9.99.9-1~bionic+brotli+http3+quic) bionic; urgency=low\n\n  * 9.99.9-1\n\n -- PA733 <admin@ypemc.com>  Tue, 24 Nov 2099 16:02:03 +0300\n/' nginx-src/debian/changelog
 
     - name: Build NGINX-QUIC
       run: |
