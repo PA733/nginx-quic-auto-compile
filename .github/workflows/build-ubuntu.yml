@@ -44,7 +44,7 @@ jobs:
       # Append '--with-http_v3_module --with-http_quic_module --with-stream_quic_module --with-cc-opt="-I../modules/boringssl/include $(CFLAGS)" --with-ld-opt="-L../modules/boringssl/build/ssl -L../modules/boringssl/build/crypto $(LDFLAGS)"' to the end of all lines containing 'CFLAGS="-Wno-ignored-qualifiers"' in nginx-src/debian/rules
       run: |
         sudo sed -i 's/CFLAGS=""/CFLAGS="-Wno-ignored-qualifiers"/g' nginx-src/debian/rules
-        sudo sed -i '\|CFLAGS="-Wno-ignored-qualifiers"| s|$| --with-http_v3_module --with-stream_quic_module --with-cc-opt="-I../modules/boringssl/include $(CFLAGS)" --with-ld-opt="-L../modules/boringssl/build/ssl -L../modules/boringssl/build/crypto $(LDFLAGS)"|' nginx-src/debian/rules
+        sudo sed -i '\|CFLAGS="-Wno-ignored-qualifiers"| s|$| --with-http_v3_module --with-stream_quic_module --with-cc-opt="-I../boringssl/include $(CFLAGS)" --with-ld-opt="-L../boringssl/build/ssl -L../boringssl/build/crypto $(LDFLAGS)"|' nginx-src/debian/rules
 
     - name: Build NGINX-QUIC
       run: |
