@@ -18,7 +18,7 @@ jobs:
         echo "deb-src https://nginx.org/packages/mainline/ubuntu $(lsb_release -c -s) nginx" | sudo tee -a /etc/apt/sources.list.d/nginx.list >> /dev/null
         sudo apt-get -qq update
         sudo apt-get install -qq mercurial
-        sudo apt-get install golang libunwind-dev
+        sudo apt-get install -qq golang libunwind-dev
         sudo apt-get build-dep -qq nginx
     - name: Get NGINX source code
       run: |
@@ -30,7 +30,7 @@ jobs:
         sudo rsync -r nginx-quic/ nginx-src/
     - name: Get BoringSSL source code
       run: |
-        git clone https://github.com/google/boringssl
+        git clone https://github.com/google/boringssl --depth=1
         cd boringssl/
         mkdir build
         cd build
