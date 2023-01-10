@@ -39,3 +39,7 @@ jobs:
         cd build
         cmake ../
         make -j$(expr $(nproc) \+ 1)
+    - name: Configure NGINX-QUIC
+      run: |
+        # Replace 'CFLAGS=""' with 'CFLAGS="-Wno-ignored-qualifiers"' in nginx-src/debian/rules
+        sed -i 's/CFLAGS=""/CFLAGS="-Wno-ignored-qualifiers"/g' nginx-src/debian/rules
