@@ -38,4 +38,4 @@ jobs:
         mkdir build
         cd build
         cmake ../
-        make
+        make -j$(expr $(nproc) \+ 1)
