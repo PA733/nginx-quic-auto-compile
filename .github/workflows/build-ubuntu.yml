@@ -53,7 +53,7 @@ jobs:
       run: |
         sudo mkdir -p nginx-src/debian/modules
         cd nginx-src/debian/modules
-        git clone --depth=1 --recursive https://github.com/google/ngx_brotli
+        sudo git clone --depth=1 --recursive https://github.com/google/ngx_brotli
     - name: Configure NGINX-QUIC
       # Replace 'CFLAGS=""' with 'CFLAGS="-Wno-ignored-qualifiers"' in nginx-src/debian/rules
       # Append QUIC module to nginx-src/debian/rules
