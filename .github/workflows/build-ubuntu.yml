@@ -51,7 +51,7 @@ jobs:
     #     sudo tar -xzvf 1.13.35.2-x64.tar.gz
     - name: Get brotli source-code
       run: |
-        mkdir -p nginx-src/debian/modules
+        sudo mkdir -p nginx-src/debian/modules
         cd nginx-src/debian/modules
         git clone --depth=1 --recursive https://github.com/google/ngx_brotli
     - name: Configure NGINX-QUIC
