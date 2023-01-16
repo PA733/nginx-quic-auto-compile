@@ -38,6 +38,7 @@ jobs:
         ./config --prefix=${{ github.workspace }}/openssl/build
         ./config -t
         make -j$(expr $(nproc) \+ 1)
+        sudo make install
     - name: Debug
       run: |
         ls ${{ github.workspace }}/openssl/build/include
