@@ -38,6 +38,10 @@ jobs:
         ./config --prefix=${{ github.workspace }}/openssl/build
         ./config -t
         make -j$(expr $(nproc) \+ 1)
+    - name: Debug
+      run: |
+        ls ${{ github.workspace }}/openssl/build/include
+        ls ${{ github.workspace }}/openssl/build/lib
     # - name: Get NGINX-PageSpeed source code
     #   run: |
     #     mkdir nginx-src/debian/modules
