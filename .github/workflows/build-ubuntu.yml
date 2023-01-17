@@ -41,6 +41,8 @@ jobs:
         sudo make install
     - name: Debug
       run: |
+        cd openssl/
+        pwd
         ls ${{ github.workspace }}/openssl/build/include
         ls ${{ github.workspace }}/openssl/build/lib
     # - name: Get NGINX-PageSpeed source code
