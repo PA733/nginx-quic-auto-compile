@@ -35,7 +35,7 @@ jobs:
     - name: Build QuicTLS
       run: |
         cd openssl/
-        ./config --prefix=${{ github.workspace }}/openssl/build -march=native -ljemalloc -Wl,-flto
+        ./config --prefix=${{ github.workspace }}/openssl/build -march=native -Wl,-flto
         ./config -t
         make -j$(expr $(nproc) \+ 1)
     # - name: Get NGINX-PageSpeed source code
