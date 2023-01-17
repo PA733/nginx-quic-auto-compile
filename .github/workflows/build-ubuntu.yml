@@ -38,14 +38,6 @@ jobs:
         ./config --prefix=${{ github.workspace }}/openssl/build
         ./config -t
         make -j$(expr $(nproc) \+ 1)
-        sudo make install
-    - name: Debug
-      run: |
-        cd openssl/
-        pwd
-        ls ${{ github.workspace }}/openssl/build/include
-        ls ${{ github.workspace }}/openssl/build
-        ls ${{ github.workspace }}/openssl/build/lib64
     # - name: Get NGINX-PageSpeed source code
     #   run: |
     #     mkdir nginx-src/debian/modules
